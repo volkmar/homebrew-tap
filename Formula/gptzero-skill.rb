@@ -39,7 +39,7 @@ class GptzeroSkill < Formula
     assert_equal 12, result.fetch("characters")
     (testpath/"draft.txt").write "Hello world\n"
     (testpath/"report.json").write({
-      input_sha256: Digest::SHA256.hexdigest("Hello world\n"),
+      input_sha256:      Digest::SHA256.hexdigest("Hello world\n"),
       sentence_feedback: [{ sentence: "Hello world", generated_prob: 0.5 }],
     }.to_json)
     system bin/"gptzero-check", "review", "--file", testpath/"draft.txt",
