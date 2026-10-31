@@ -8,7 +8,7 @@ class ZerogptSkill < Formula
 
   def install
     libexec.install "skills", "tools"
-    python = Formula["python@3.14"].opt_bin/"python3.14"
+    python = formula_opt_bin("python@3.14")/"python3.14"
     (bin/"zerogpt-check").write <<~SH
       #!/bin/sh
       exec "#{python}" "#{opt_libexec}/skills/zerogpt-check/scripts/check_text.py" "$@"
