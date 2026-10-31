@@ -1,8 +1,8 @@
 class ZerogptSkill < Formula
   desc "Codex skill for ZeroGPT checks and feedback-guided draft revisions"
-  homepage "https://github.com/volkmar/zerogpt-skill"
-  url "https://github.com/volkmar/zerogpt-skill/releases/download/v0.1.0/zerogpt-skill-0.1.0.tar.gz"
-  sha256 "6508107bfc6e9419249d5d3b5335f1acc5aa0b319fdabe509eee0bdb8924a2e3"
+  homepage "https://github.com/volkmar/skills"
+  url "https://github.com/volkmar/skills/releases/download/zerogpt-skill-v0.1.1/zerogpt-skill-0.1.1.tar.gz"
+  sha256 "14d59b2036aa239c3ea17f7c57a9e320b79ee80c40210e3200194603c12d735e"
 
   depends_on "python@3.14"
 
@@ -15,7 +15,7 @@ class ZerogptSkill < Formula
     SH
     (bin/"zerogpt-skill").write <<~SH
       #!/bin/sh
-      exec "#{python}" "#{opt_libexec}/tools/manage_skill.py" --source "#{opt_libexec}/skills/zerogpt-check" "$@"
+      exec "#{python}" "#{opt_libexec}/tools/zerogpt/manage_skill.py" --source "#{opt_libexec}/skills/zerogpt-check" "$@"
     SH
   end
 
