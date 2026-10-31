@@ -1,8 +1,8 @@
 class GptzeroSkill < Formula
   desc "GPTZero document review skill for Claude Code and Codex"
   homepage "https://github.com/volkmar/skills"
-  url "https://github.com/volkmar/skills/releases/download/gptzero-skill-v0.1.0/gptzero-skill-0.1.0.tar.gz"
-  sha256 "c4843491ad9efb2647a8c3f7369cab483613cc3ed1fd1927639e6f6c3ca7ccd4"
+  url "https://github.com/volkmar/skills/releases/download/gptzero-skill-v0.1.1/gptzero-skill-0.1.1.tar.gz"
+  sha256 "181ecd2d9479a58a6fa4fa48c6376cdcc7524fb7b0465f4cc1adf325a14585db"
 
   depends_on "python@3.14"
 
@@ -37,6 +37,14 @@ class GptzeroSkill < Formula
     result = JSON.parse(pipe_output("#{bin}/gptzero-check --dry-run", "Hello world\n", 0))
     assert_equal false, result.fetch("request_sent")
     assert_equal 12, result.fetch("characters")
+    (testpath/"draft.txt").write "Hello world\n"
+    (testpath/"report.json").write({
+      input_sha256: Digest::SHA256.hexdigest("Hello world\n"),
+      sentence_feedback: [{ sentence: "Hello world", generated_prob: 0.5 }],
+    }.to_json)
+    system bin/"gptzero-check", "review", "--file", testpath/"draft.txt",
+           "--report", testpath/"report.json", "--output", testpath/"review.html"
+    assert_match "Hello world", (testpath/"review.html").read
     system bin/"gptzero-skill", "install", "--skills-dir", testpath/"skills"
     assert_path_exists testpath/"skills/gptzero-check/SKILL.md"
     system bin/"gptzero-skill", "uninstall", "--skills-dir", testpath/"skills"
